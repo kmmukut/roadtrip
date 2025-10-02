@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niagara Falls Itinerary</title>
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h1 { font-size: 2.5em; }
+        h2 { font-size: 2em; margin-top: 40px;}
+        h3 { font-size: 1.5em; margin-top: 30px; border-bottom: none;}
+
+        /* Itinerary List Styling */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        li.completed {
+            text-decoration: line-through;
+            color: #95a5a6;
+            background-color: #ecf0f1;
+            opacity: 0.8;
+        }
+        input[type="checkbox"] {
+            margin-right: 15px;
+            min-width: 20px;
+            min-height: 20px;
+            cursor: pointer;
+        }
+        .meta-info {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Your Niagara Falls Adventure</h1>
+        <h2>📅 Monday, October 13, 2025</h2>
+
+        <section id="checklist">
+            <h2>✅ Before You Go</h2>
+            <ul>
+                <li><input type="checkbox" id="task1"><label for="task1">Buy Maid of the Mist Tickets Online</label></li>
+                <li><input type="checkbox" id="task2"><label for="task2">Buy Cave of the Winds Ticket (Timed for 2:30 PM)</label></li>
+                <li><input type="checkbox" id="task3"><label for="task3">Confirm Fireworks Time on Official Website</label></li>
+                <li><input type="checkbox" id="task4"><label for="task4">Pack Layers & Waterproof Jacket</label></li>
+                <li><input type="checkbox" id="task5"><label for="task5">Charge Phone & Portable Power Bank</label></li>
+            </ul>
+
+            <h2>🗺️ Itinerary</h2>
+
+            <h3>🏙️ Late Morning (11:00 AM - 1:00 PM)</h3>
+            <ul>
+                <li><input type="checkbox" id="task6"><label for="task6">Arrive & Park at Lot 1 or 2</label></li>
+                <li><input type="checkbox" id="task7"><label for="task7">Purchase All-Day Niagara Scenic Trolley Pass</label></li>
+                <li><input type="checkbox" id="task8"><label for="task8">Experience Maid of the Mist Boat Tour</label></li>
+                <li><input type="checkbox" id="task9"><label for="task9">Visit the Observation Tower</label></li>
+            </ul>
+
+            <h3>🥪 Lunch (1:00 PM - 2:00 PM)</h3>
+            <ul>
+                <li><input type="checkbox" id="task10"><label for="task10">Grab a quick lunch to refuel</label></li>
+            </ul>
+
+            <h3>🏞️ Afternoon (2:00 PM - 5:00 PM)</h3>
+            <ul>
+                <li><input type="checkbox" id="task11"><label for="task11">Head to Goat Island (Walk or Trolley)</label></li>
+                <li><input type="checkbox" id="task12"><label for="task12">Experience Cave of the Winds (2:30 PM Slot)</label></li>
+                <li><input type="checkbox" id="task13"><label for="task13">Walk to Terrapin Point for Horseshoe Falls views</label></li>
+                <li><input type="checkbox" id="task14"><label for="task14">See the Nikola Tesla Monument</label></li>
+                <li><input type="checkbox" id="task15"><label for="task15">Explore the Three Sisters Islands rapids</label></li>
+            </ul>
+
+            <h3>☕ Late Afternoon (5:00 PM - 7:00 PM)</h3>
+            <ul>
+                <li><input type="checkbox" id="task16"><label for="task16">Recharge: Grab a coffee & relax</label></li>
+                <li><input type="checkbox" id="task17"><label for="task17">Watch the Falls Illumination begin (~6:30 PM)</label></li>
+            </ul>
+
+            <h3>🎆 Evening (7:00 PM - 10:30 PM)</h3>
+            <ul>
+                <li><input type="checkbox" id="task18"><label for="task18">Have a leisurely sit-down dinner</label></li>
+                <li><input type="checkbox" id="task19"><label for="task19">Find a fireworks spot by 9:30 PM (Prospect Point is great)</label></li>
+                <li><input type="checkbox" id="task20"><label for="task20">Enjoy the Fireworks Finale! (~10:00 PM)</label></li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checklist = document.getElementById('checklist');
+            const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
+            const storageKey = 'niagaraItineraryState';
+
+            // Function to save the state of all checkboxes to localStorage
+            function saveState() {
+                const state = {};
+                checkboxes.forEach(checkbox => {
+                    state[checkbox.id] = checkbox.checked;
+                });
+                localStorage.setItem(storageKey, JSON.stringify(state));
+            }
+
+            // Function to load the state from localStorage and apply it
+            function loadState() {
+                const savedState = JSON.parse(localStorage.getItem(storageKey));
+                if (savedState) {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = savedState[checkbox.id] || false;
+                        updateAppearance(checkbox);
+                    });
+                }
+            }
+
+            // Function to update the visual style of a list item
+            function updateAppearance(checkbox) {
+                const li = checkbox.parentElement;
+                if (checkbox.checked) {
+                    li.classList.add('completed');
+                } else {
+                    li.classList.remove('completed');
+                }
+            }
+
+            // Add an event listener to each checkbox
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    updateAppearance(this);
+                    saveState();
+                });
+            });
+
+            // Load the saved state when the page loads
+            loadState();
+        });
+    </script>
+
+</body>
+</html>
